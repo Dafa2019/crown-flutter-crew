@@ -1,0 +1,94 @@
+# Crown Flutter Crew - Task Definitions
+# Sequential pipeline: Architecture > Code > UI/Perf > Security > Test > Deploy
+
+architecture_design:
+  description: >
+    Design the Flutter app architecture based on project requirements:
+    1. Choose Clean Architecture + Feature-first module structure
+    2. Define domain/data/presentation layer boundaries and dependency rules
+    3. Create pubspec.yaml with pinned 2026 dependencies (Riverpod 3.0, GoRouter 14.x,
+       Dio, Retrofit, Freezed, flutter_secure_storage)
+    4. Design directory scaffold with feature modules
+    5. Output Architecture Decision Record (ADR)
+    Project: {project_description}
+  expected_output: >
+    Complete architecture document including: directory structure tree,
+    layer dependency diagram, pubspec.yaml content, ADR with rationale,
+    and scaffold template ready for implementation.
+  agent: architect
+
+implement_features:
+  description: >
+    Based on the architecture design, implement production-ready Flutter code:
+    1. Riverpod 3.0 providers (@riverpod codegen, mutations API, offline persistence)
+    2. GoRouter 14.x routing (nested routes, guards, deep links)
+    3. Retrofit + Dio network layer (interceptors, retry, cache)
+    4. Freezed data models (union types, copyWith, fromJson/toJson)
+    5. Core feature implementation (auth flow, main screens, navigation)
+    Ensure: flutter analyze zero warnings, build_runner codegen clean.
+  expected_output: >
+    Complete Dart/Flutter source code for all features with:
+    provider definitions, router config, API service layer, data models,
+    and core UI screens. All code passes flutter analyze with zero warnings.
+  agent: coder
+
+optimize_ui_performance:
+  description: >
+    Optimize the implemented Flutter app for 60fps+ performance:
+    1. Audit all CustomPainter/Canvas usage for Impeller compatibility
+    2. Pre-compile GLSL shaders to avoid runtime jank
+    3. Optimize large lists (Sliver + viewport, RepaintBoundary placement)
+    4. Integrate Rive 2.0 animations where specified
+    5. Profile with Flutter DevTools, fix all frames exceeding 16ms budget
+    6. Output performance benchmark report (FPS, memory, GPU)
+  expected_output: >
+    Performance optimization report with: before/after FPS metrics,
+    memory usage comparison, list of optimizations applied,
+    shader pre-compilation manifest, and benchmark results.
+  agent: ui_perf_expert
+
+security_audit:
+  description: >
+    Conduct full security audit and size optimization:
+    1. Configure R8/ProGuard rules (Android) and obfuscation flags (iOS)
+    2. Implement SSL Certificate Pinning (Dio + TrustKit)
+    3. Set up flutter_secure_storage with AES-256
+    4. Add root/jailbreak detection
+    5. Verify 16KB page alignment for Android 15+
+    6. Analyze and optimize APK/AAB/IPA size (target: APK < 25MB, IPA < 50MB)
+    7. OWASP Mobile Top 10 compliance check
+  expected_output: >
+    Security audit report with: OWASP compliance checklist,
+    SSL pinning config, obfuscation rules, size analysis (before/after),
+    vulnerability findings and remediations, and final security score.
+  agent: security_expert
+
+testing_suite:
+  description: >
+    Build comprehensive Flutter test suite:
+    1. Unit tests for all domain layer (use cases, repositories, models)
+    2. Widget tests for UI components (Provider mock, pump/pumpAndSettle)
+    3. Golden tests for cross-platform screenshot comparison (iOS + Android)
+    4. Integration tests with Patrol framework (core user flows E2E)
+    5. Coverage analysis targeting > 85% line coverage
+    6. Firebase Test Lab device matrix configuration
+  expected_output: >
+    Complete test suite with: unit test files, widget test files,
+    golden test baselines, Patrol E2E scripts, coverage report (lcov),
+    Firebase Test Lab config, and test quality summary.
+  agent: tester
+
+deploy_pipeline:
+  description: >
+    Configure full automated release pipeline:
+    1. Codemagic YAML workflows (PR validation, staging, production)
+    2. Fastlane lanes (iOS: match + deliver, Android: supply + aab signing)
+    3. GitHub Actions CI workflow (lint, test, build, deploy)
+    4. Shorebird OTA code push setup (gradual rollout, rollback strategy)
+    5. App Store Connect + Google Play Console submission automation
+    6. Target: git push to production in < 45 minutes
+  expected_output: >
+    Complete CI/CD configuration with: codemagic.yaml, Fastfile (iOS + Android),
+    .github/workflows/ci.yml, Shorebird config, store submission scripts,
+    and deployment runbook with rollback procedures.
+  agent: cicd_expert
